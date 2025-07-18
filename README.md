@@ -1,7 +1,7 @@
 # n8n: scalable multi-component docker setup guide
 
-#### - n8n community + nginx + redis + postgres + certbot (optional)
-#### - follow the guide - or ask your ai to.
+- n8n community + nginx + redis + postgres + certbot (optional)
+- follow the guide - or ask your ai to.
 
 ## Expected Directory Structure
 First, create this directory structure:
