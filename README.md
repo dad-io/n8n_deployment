@@ -2,7 +2,7 @@
 
 ### n8n community + nginx + redis + postgres + certbot (optional)
 
-## Directory Structure
+## Expected Directory Structure
 First, create this directory structure:
 ```
 n8n-production/
