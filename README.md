@@ -1,4 +1,4 @@
-# n8n: scalable, secure multi-component docker setup guide
+# n8n: scalable multi-component docker setup guide
 
 ### n8n community + nginx + redis + postgres + certbot (optional)
 
