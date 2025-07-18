@@ -2,8 +2,9 @@
 
 - n8n Community + Nginx + Redis + Postgres + Certbot (optional)
 - Follow the guide - or ask your AI to
-- Developed & tested with Claude Code using Claude Opus 4
+- Developed & tested with Claude Code / Opus 4
 - Remember to update host references (e.g. N8N_HOST=your-domain.com -> localhost)
+- NOTE/TODO: certbot setup currently untested 
 
 ## Expected Directory Structure
 First, create this directory structure:
