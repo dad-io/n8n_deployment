@@ -1,4 +1,4 @@
-# n8n: Scalable Multi-Component Docker Setup Guide
+# n8n: Multi-Component Docker Setup Guide
 
 - n8n Community + Nginx + Redis + Postgres + Certbot (optional)
 - Follow the guide - or ask your AI to
