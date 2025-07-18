@@ -1,8 +1,8 @@
 # n8n: Scalable Multi-Component Docker Setup Guide
 
 - n8n Community + Nginx + Redis + Postgres + Certbot (optional)
-- Follow the guide - or ask your ai to
-- Developed & tested with Claude Opus 4
+- Follow the guide - or ask your AI to
+- Developed & tested with Claude Code using Claude Opus 4 
 
 ## Expected Directory Structure
 First, create this directory structure:
