@@ -1,5 +1,7 @@
 # n8n Production Docker Setup Guide
 
+## stack: n8n community + nginx + redis + postgres + certbot (optional)
+
 ## Directory Structure
 First, create this directory structure:
 ```
