@@ -80,7 +80,7 @@ services:
     networks:
       - n8n-network
 
-  # Redis for queue mode (optional but recommended for production)
+  # Redis for queue mode (optional
   redis:
     image: redis:7-alpine
     container_name: n8n_redis
