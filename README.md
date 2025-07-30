@@ -816,5 +816,3 @@ docker exec n8n n8n executeBatch:clearExecutionData --days=7
 5. **Monitor Performance**: Review logs and metrics regularly
 
 ---
-
-**Remember**: This deployment is production-ready but always test workflows in a staging environment first!
