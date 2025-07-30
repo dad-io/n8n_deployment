@@ -1,5 +1,5 @@
-# n8n Production Deployment Guide
-## Complete Step-by-Step Instructions with Multi-Agent Architecture
+# n8n Multi-Component Deployment Guide
+## n8n/web server/cache layer/database
 
 ### Project Context
 - **PROJECT_NAME**: n8n Production Deployment
@@ -804,7 +804,6 @@ docker exec n8n n8n executeBatch:clearExecutionData --days=7
 - **n8n Documentation**: https://docs.n8n.io
 - **n8n Community Forum**: https://community.n8n.io
 - **Docker Documentation**: https://docs.docker.com
-- **This Repository**: https://github.com/dad-io/n8n_deployment
 
 ---
 
