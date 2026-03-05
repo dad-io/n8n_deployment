@@ -6,6 +6,46 @@
 - Remember to update host references (e.g. N8N_HOST=your-domain.com -> localhost)
 - NOTE/TODO: certbot setup currently untested 
 
+## Sequence of Commands (references scripts below)
+
+```bash
+# 1. Create directories
+mkdir -p n8n-production/{nginx,certs,n8n_data,postgres_data,postgres-init,backup,certbot/{www,conf}}
+cd n8n-production
+
+# 2. Create PostgreSQL initialization script
+mkdir -p postgres-init
+cat > postgres-init/init-db.sh << 'EOF'
+#!/bin/bash
+set -e
+
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+    CREATE USER n8n_user WITH PASSWORD '$POSTGRES_NON_ROOT_PASSWORD';
+    GRANT ALL PRIVILEGES ON DATABASE n8n TO n8n_user;
+    ALTER DATABASE n8n OWNER TO n8n_user;
+EOSQL
+EOF
+chmod +x postgres-init/init-db.sh
+
+# 3. Generate keys and update .env
+chmod +x generate-keys.sh
+./generate-keys.sh
+
+# 4. Create self-signed cert (for initial setup)
+openssl req -x509 -nodes -days 365 -newkey rsa:4096 \
+  -keyout certs/privkey.pem \
+  -out certs/fullchain.pem \
+  -subj "/C=US/ST=State/L=City/O=Organization/CN=your-domain.com"
+
+# 5. Start services
+docker-compose up -d
+
+# 6. Check logs
+docker-compose logs -f
+
+# 7. Initialize admin user (visit https://your-domain.com)
+```
+
 ## Expected Directory Structure
 First, create this directory structure:
 ```
@@ -282,19 +322,6 @@ server {
 
 ## 4. Setup Scripts
 
-### PostgreSQL User Initialization
-`postgres-init/init-db.sh`:
-```bash
-#!/bin/bash
-set -e
-
-psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
-    CREATE USER n8n_user WITH PASSWORD '$POSTGRES_NON_ROOT_PASSWORD';
-    GRANT ALL PRIVILEGES ON DATABASE n8n TO n8n_user;
-    ALTER DATABASE n8n OWNER TO n8n_user;
-EOSQL
-```
-
 ### Generate Security Keys
 `generate-keys.sh`:
 ```bash
@@ -348,47 +375,7 @@ check_service "n8n_redis"
 check_service "n8n_nginx"
 ```
 
-## 5. Initial Setup Commands
-
-```bash
-# 1. Create directories
-mkdir -p n8n-production/{nginx,certs,n8n_data,postgres_data,postgres-init,backup,certbot/{www,conf}}
-cd n8n-production
-
-# 2. Create PostgreSQL initialization script
-mkdir -p postgres-init
-cat > postgres-init/init-db.sh << 'EOF'
-#!/bin/bash
-set -e
-
-psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
-    CREATE USER n8n_user WITH PASSWORD '$POSTGRES_NON_ROOT_PASSWORD';
-    GRANT ALL PRIVILEGES ON DATABASE n8n TO n8n_user;
-    ALTER DATABASE n8n OWNER TO n8n_user;
-EOSQL
-EOF
-chmod +x postgres-init/init-db.sh
-
-# 3. Generate keys and update .env
-chmod +x generate-keys.sh
-./generate-keys.sh
-
-# 4. Create self-signed cert (for initial setup)
-openssl req -x509 -nodes -days 365 -newkey rsa:4096 \
-  -keyout certs/privkey.pem \
-  -out certs/fullchain.pem \
-  -subj "/C=US/ST=State/L=City/O=Organization/CN=your-domain.com"
-
-# 5. Start services
-docker-compose up -d
-
-# 6. Check logs
-docker-compose logs -f
-
-# 7. Initialize admin user (visit https://your-domain.com)
-```
-
-## 6. Let's Encrypt Setup (Production SSL)
+## 5. Let's Encrypt Setup (Production SSL)
 
 ```bash
 # Initial certificate request
